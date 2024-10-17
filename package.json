@@ -19,5 +19,13 @@
     "eslint": "^9.12.0",
     "husky": "^9.1.6",
     "prettier": "^3.3.3"
-  }
+  },
+  "husky": {
+    "hooks": {
+      "applypatch-msg": "echo \"[Husky] applypatch-msg\"",
+      "pre-applypatch": "echo \"[Husky] pre-applypatch\"",
+      "post-applypatch": "echo \"[Husky] post-applypatch\"",
+      "pre-commit": "npm run lint && npm run format && echo \"[Husky] pre-commit checks passed!\""
+             }
+ }
 }
