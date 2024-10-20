@@ -1,25 +1,25 @@
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+Cypress.Commands.add('login', (email, password) => {
+  cy.get('div.modal')
+    .should('be.visible')
+    .then((modal) => {
+      cy.wrap(modal)
+        .find('button[data-bs-dismiss="modal"]')
+        .first()
+        .click({ force: true });
+    });
+
+  cy.wait(500);
+  cy.get('button[data-auth="login"]')
+    .filter((index, button) => {
+      return button.innerText.trim() === 'Login';
+    })
+    .first()
+    .click({ force: true });
+
+  cy.wait(500);
+  cy.get('#loginEmail', { timeout: 8000 })
+    .should('be.visible')
+    .type(email, { delay: 100 });
+  cy.get('#loginPassword').should('be.visible').type(password, { delay: 100 });
+  cy.get('#loginForm').submit();
+});
